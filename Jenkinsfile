@@ -11,36 +11,36 @@ pipeline {
                 git url: 'https://github.com/shaiksaiteja/IQAP', branch: 'main'
             }
         }
-       
+
         stage('Build Docker img') {
             steps {
                 script {
-                    docker.build IMAGE_NAME, '.' 
+                    docker.build IMAGE_NAME, '.'
                 }
             }
         }
-        
+
         stage('LOGIN TO DOCKERHUB') {
-    steps {
-        script {
-            sh 'docker --version'
-            withCredentials([usernamePassword(credentialsId: 'saiteja_jen_docker', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW')]) {
-                sh "docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW"
+            steps {
+                script {
+                    sh 'docker --version'
+                    withCredentials([usernamePassword(credentialsId: 'saiteja_jen_docker', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW')]) {
+                        sh "docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW"
+                    }
+                }
+            }
+        }
+
+        stage('PUSH IMAGE') {
+            steps {
+                script {
+                    sh 'docker --version'
+                    sh "docker push $IMAGE_NAME"
+                }
             }
         }
     }
-}
 
-stage('PUSH IMAGE') {
-    steps {
-        script {
-            sh 'docker --version'
-            sh "docker push $IMAGE_NAME"
-        }
-    }
-}
-
-    
     post {
         always {
             sh 'docker logout'
