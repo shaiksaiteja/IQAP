@@ -11,15 +11,7 @@ pipeline {
                 git url: 'https://github.com/shaiksaiteja/IQAP', branch: 'main'
             }
         }
-        stage('Build  img') {
-    steps {
-        script {
-            echo 'Building Docker image...'
-            docker.build IMAGE_NAME, '.'
-            echo 'Docker image built successfully.'
-        }
-    }
-}
+       
         stage('Build Docker img') {
             steps {
                 script {
