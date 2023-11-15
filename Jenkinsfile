@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('saiteja_jen_docker')
-        IMAGE_NAME = "shaiksaiteja/finalsemproject:${env.BUILD_NUMBER}"
+        IMAGE_NAME = "shaiksaiteja/sefinalsemproject:${env.BUILD_NUMBER}"
     }
 
     stages {
