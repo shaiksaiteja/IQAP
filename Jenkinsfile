@@ -2,20 +2,20 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('saiteja_jen_docker')
-        IMAGE_NAME = "shaiksaiteja/sefinalsemproject:${env.BUILD_NUMBER}"
+        IMAGE_NAME = "shaiksaiteja/finalsemproject:${env.BUILD_NUMBER}"
     }
 
     stages {
         stage('SCM Checkout') {
             steps {
-                git url: 'https://github.com/shaiksaiteja/IQAP', branch: 'main'
+                git 'https://github.com/shaiksaiteja/IQAP.git', branch: 'main'
             }
         }
 
         stage('Build Docker img') {
             steps {
                 script {
-                    docker.build IMAGE_NAME, '.'
+                    sh 'docker build -t shaiksaiteja/finalsemproject:$BUILD_NUMBER .'
                 }
             }
         }
@@ -34,8 +34,7 @@ pipeline {
         stage('PUSH IMAGE') {
             steps {
                 script {
-                    sh 'docker --version'
-                    sh "docker push $IMAGE_NAME"
+                    sh 'docker push shaiksaiteja/finalsemproject:$BUILD_NUMBER'
                 }
             }
         }
